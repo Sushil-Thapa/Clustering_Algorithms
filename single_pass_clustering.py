@@ -50,14 +50,19 @@ print
 perRate = 100
 fraction = numberOfData//perRate
 firstIteration = True
+
+#if the dataset is exhausted then finish.
+#Other wise repeat from setp 2
 for i in range(perRate):
 
-    bufferSet, dataset = dataset[:fraction,:],dataset[fraction:,:]
+    bufferSet, dataset = dataset[:fraction,:],dataset[fraction:,:] #fill the buffer points
+
     # print('buffer:'+str(bufferSet.shape))
     # print('dataset:'+str(dataset.shape))
     if firstIteration:
         firstIteration = False
-    else:
+    else: #for each cluster update the sufficient statistics of the discard set with the points assignmed to the cluster
+
         for i in range(numberOfClusters):
             num = clusterList[i]['discardSets']['numberOfPoints']
             tmp = np.tile(clusterList[i]['mean'],(num,1))

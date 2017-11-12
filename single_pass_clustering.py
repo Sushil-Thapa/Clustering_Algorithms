@@ -33,7 +33,7 @@ discardSets = { 'sumOfAllPoints':None,
 #         'sqSumOfAllPoints':None
 #
 # }
-dataset = np.loadtxt("../data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))
+dataset = np.loadtxt("data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))
 np.random.shuffle(dataset.flat)
 # randomly initialize k cluster means. let each cluster have a discard set in the buffer that keeps track of the sufficient statistics for all points from prev iterations
 numberOfData,numberOfFeatures = dataset.shape

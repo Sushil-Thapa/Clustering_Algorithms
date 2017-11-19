@@ -16,14 +16,17 @@
 
 import numpy as np
 from sklearn.cluster import KMeans
-numberOfClusters = 3
+import resource,time
+
+numberOfClusters = 5
 discardSets = { 'sumOfAllPoints':None,
                 'numberOfPoints':None,
                 'sqSumOfAllPoints':None
 }
 
-dataset = np.loadtxt("data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))
-# print('shape of dataset:',dataset.shape)
+#dataset = np.loadtxt("data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))
+dataset = np.loadtxt("data/generated_data.csv")
+print('shape of dataset:',dataset.shape)
 
 
 np.random.shuffle(dataset.flat)
@@ -53,7 +56,11 @@ firstIteration = True
 
 #if the dataset is exhausted then finish.
 #Other wise repeat from setp 2
+startTime = time.time()
 for i in range(perRate):
+    if i % 10== 0:
+        print
+        print ".",
 
     bufferSet, dataset = dataset[:fraction,:],dataset[fraction:,:] #fill the buffer points
 
@@ -92,5 +99,11 @@ for i in range(perRate):
                         'discardSets':tempDiscardSets}
     # a = raw_input()
     # print clusterList[i]['mean']
+
+
+
+print('Time elapsed:',time.time() - startTime)
+print("Max_ram_usage: %.2f MB.\n" % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024)) #TODO make function f and use mem_usage = memory_usage(f) an its max
+
 for i in range(numberOfClusters):
     print clusterList[i]

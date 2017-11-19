@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import pandas as pd
+import time,resource
 
 
 def load_dataset(name):
@@ -26,7 +27,7 @@ def plot(dataset, history_centroids, belongs_to):
     for index, centroids in enumerate(history_centroids):
         for inner, item in enumerate(centroids):
             if index == 0:
-                history_points.append(ax.plot(item[0], item[1], 'Bo')[0])
+                history_points.append(ax.plot(item[0], item[1], 'bo')[0])
             else:
                 history_points[inner].set_data(item[0], item[1])
                 print("centroids {} {}".format(index, item))
@@ -41,7 +42,8 @@ def kmeans(k, epsilon=0, distance='euclidian'):
     if distance == 'euclidian':
         dist_method = euclidian
     # dataset = load_dataset('durudataset.txt')
-    dataset = np.loadtxt("../data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))
+    #dataset = np.loadtxt("data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))
+    dataset = np.loadtxt("data/generated_data.csv")
 
     # dataset = dataset[:, 0:dataset.shape[1] - 1]
     num_instances, num_features = dataset.shape
@@ -51,8 +53,13 @@ def kmeans(k, epsilon=0, distance='euclidian'):
     belongs_to = np.zeros((num_instances, 1))
     norm = dist_method(prototypes, prototypes_old)
     iteration = 0
+    startTime = time.time()
+
     while norm > epsilon:
         iteration += 1
+        if iteration % 50  ==0:
+            print
+            print ".",
         norm = dist_method(prototypes, prototypes_old)
         prototypes_old = prototypes
         for index_instance, instance in enumerate(dataset):
@@ -75,19 +82,14 @@ def kmeans(k, epsilon=0, distance='euclidian'):
         history_centroids.append(tmp_prototypes)
 
     # plot(dataset, history_centroids, belongs_to)
+    print('Time elapsed:',time.time() - startTime)
+    print("Max_ram_usage: %.2f MB.\n" % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024))
 
     return prototypes, history_centroids, belongs_to,dataset
 
 
 def execute():
-    dataset = load_dataset('durudataset.txt')
-    # dataset = pd.read_csv("../data/data.csv",sep='\t',header=0,usecols=["Distance_Feature","Speeding_Feature"],names=["Driver_ID", "Distance_Feature", "Speeding_Feature"])
-    # df = pd.read_csv("../data/data.csv",sep='\t',header=None,usecols=["Distance_Feature", "Speeding_Feature"],names=["Driver_ID", "Distance_Feature", "Speeding_Feature"])
-    # print(df.head())
-    # df = np.loadtxt("../data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))
-    # N,d = df.shape
-    # input()
-    centroids, history_centroids, belongs_to,df = kmeans(2)
-    plot(df, history_centroids, belongs_to)
+    centroids, history_centroids, belongs_to,df = kmeans(5)
+    #plot(df, history_centroids, belongs_to)
 
 execute()

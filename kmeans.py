@@ -14,7 +14,8 @@ def euclidian(a, b):
 
 
 def plot(dataset, history_centroids, belongs_to):
-    colors = ['r', 'g']
+    # print(len(history_centroids))
+    colors = ['r','g','c','k','y','m']
 
     fig, ax = plt.subplots()
 
@@ -26,14 +27,16 @@ def plot(dataset, history_centroids, belongs_to):
     history_points = []
     for index, centroids in enumerate(history_centroids):
         for inner, item in enumerate(centroids):
+
             if index == 0:
                 history_points.append(ax.plot(item[0], item[1], 'bo')[0])
             else:
                 history_points[inner].set_data(item[0], item[1])
-                print("centroids {} {}".format(index, item))
-
-                plt.pause(0.5)
-
+                # print index
+                if index == len(history_centroids)-1:
+                    print("centroid {} {}".format(index, item))
+                plt.pause(0.001)
+    plt.ioff()
     plt.show()
 
 
@@ -43,10 +46,11 @@ def kmeans(k, epsilon=0, distance='euclidian'):
         dist_method = euclidian
     # dataset = load_dataset('durudataset.txt')
     #dataset = np.loadtxt("data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))
-    dataset = np.loadtxt("data/generated_data.csv")
+    dataset = np.loadtxt("data/generated_data_1000.csv")
 
     # dataset = dataset[:, 0:dataset.shape[1] - 1]
     num_instances, num_features = dataset.shape
+    np.random.shuffle(dataset.flat)
     prototypes = dataset[np.random.randint(0, num_instances - 1, size=k)]
     history_centroids.append(prototypes)
     prototypes_old = np.zeros(prototypes.shape)
@@ -57,9 +61,6 @@ def kmeans(k, epsilon=0, distance='euclidian'):
 
     while norm > epsilon:
         iteration += 1
-        if iteration % 50  ==0:
-            print
-            print ".",
         norm = dist_method(prototypes, prototypes_old)
         prototypes_old = prototypes
         for index_instance, instance in enumerate(dataset):
@@ -83,13 +84,14 @@ def kmeans(k, epsilon=0, distance='euclidian'):
 
     # plot(dataset, history_centroids, belongs_to)
     print('Time elapsed:',time.time() - startTime)
-    print("Max_ram_usage: %.2f MB.\n" % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024))
-
+    print("Max_ram_usage: %.2f MB." % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024))
+    # print belongs_to,len(belongs_to),belongs_to.shape
+    raw_input('press enter')
     return prototypes, history_centroids, belongs_to,dataset
 
 
 def execute():
-    centroids, history_centroids, belongs_to,df = kmeans(5)
-    #plot(df, history_centroids, belongs_to)
+    centroids, history_centroids, belongs_to,df = kmeans(6)
+    plot(df, history_centroids, belongs_to)
 
 execute()

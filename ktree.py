@@ -5,7 +5,7 @@ from ktree import ktree,KTreeOptions,utils
 order = 6 # order: order of K-tree default:6
 
 # ds = np.loadtxt("data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))
-ds = np.loadtxt("data/generated_data_1000.csv")
+ds = np.loadtxt("data/generated_data_10000.csv")
 print ('Shape: ',ds.shape)
 N,d = ds.shape # N: number of examples, d: dimension of examples
 

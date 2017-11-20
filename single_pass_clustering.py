@@ -12,11 +12,10 @@
 #if the dataset is exhausted then finish.
 #Other wise repeat from setp 2
 #
-
-
 import numpy as np
 from sklearn.cluster import KMeans
 import resource,time
+import matplotlib.pyplot as plt
 
 numberOfClusters = 5
 discardSets = { 'sumOfAllPoints':None,
@@ -25,8 +24,9 @@ discardSets = { 'sumOfAllPoints':None,
 }
 
 #dataset = np.loadtxt("data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))
-dataset = np.loadtxt("data/generated_data.csv")
-print('shape of dataset:',dataset.shape)
+dataset = np.loadtxt("data/generated_data_10000.csv")
+backup_dataset = dataset
+print('shape of dataset:',dataset.shape) #Gives number of datas and dimensions
 
 
 np.random.shuffle(dataset.flat)
@@ -47,19 +47,17 @@ for i in range(randomClusterMeans.shape[0]):
                         'discardSets':discardSets
                     })
     # print clusterList[i]['mean']
-print
 # print clusterList
 #fill the buffer points
 perRate = 100
-fraction = numberOfData//perRate
+fraction = numberOfData//perRate #1000000/100 = 10000
 firstIteration = True
 
 #if the dataset is exhausted then finish.
 #Other wise repeat from setp 2
 startTime = time.time()
-for i in range(perRate):
-    if i % 10== 0:
-        print
+for i in range(perRate): # 100 iterations
+    if i % 50== 0:
         print ".",
 
     bufferSet, dataset = dataset[:fraction,:],dataset[fraction:,:] #fill the buffer points
@@ -105,5 +103,30 @@ for i in range(perRate):
 print('Time elapsed:',time.time() - startTime)
 print("Max_ram_usage: %.2f MB.\n" % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024)) #TODO make function f and use mem_usage = memory_usage(f) an its max
 
+# for i in range(numberOfClusters):
+#     print clusterList[i]
+
+def plot(dataset, belongs_to):
+    colors = ['r','g','b','c','k','y','m']
+
+    fig, ax = plt.subplots()
+    for index in range(dataset.shape[0]): #Number of data
+        instances_close = [i for i in range(len(belongs_to)) if belongs_to[i] == index]
+        for instance_index in instances_close:
+            ax.plot(dataset[instance_index][0], dataset[instance_index][1], (colors[index] + 'o'))
+    plt.show()
+# mean = np.array([clusterList[i]['mean'] for i in range(5)])
+temp_dataset = np.empty(shape=(0,2))
+temp_belongs_to = []
 for i in range(numberOfClusters):
-    print clusterList[i]
+    # for j in range(tempClusters[i].shape[0]):
+    print temp_dataset,tempClusters[i][:2,:2],'...\n'
+    np.append(temp_dataset,tempClusters[i],axis=0)
+    print temp_dataset
+    for j in range(tempClusters[i].shape[0]):
+        # print j
+        temp_belongs_to.append(i)
+    # print np.array(temp_dataset).shape,np.array(temp_belongs_to).shape,np.array(tempClusters[i][:5,:5])
+    raw_input()
+raw_input('press enter')
+plot(backup_dataset,temp_belongs_to)

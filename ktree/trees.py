@@ -268,7 +268,7 @@ class KTree(object):
         # self.model provides all metric related functions:
         self.model = models.model(self.options)
         # root node of tree:
-        self.root = self.new_root()
+        self.root = self.new_root() #cluster
 
     def __str__(self):
         s = "KTree("

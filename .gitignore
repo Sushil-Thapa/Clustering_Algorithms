@@ -4,11 +4,14 @@ __pycache__/
 *$py.class
 *.csv
 *.pickle
-
+*.pyc
 # C extensions
 *.so
 
 # Distribution / packaging
+.idea/
+data/
+complexities/
 .Python
 env/
 build/

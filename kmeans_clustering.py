@@ -3,6 +3,7 @@ from sklearn.cluster import KMeans
 import resource,time
 import matplotlib.pyplot as plt
 from timer import timeit
+import timer,time
 
 # def plot(dataset, belongs_to):
 #     colors = ['r','g','b','c','k','y','m']
@@ -18,7 +19,12 @@ from timer import timeit
 def kmeans_clustering(n_clusters,dataset):
     k_means = KMeans(n_clusters=n_clusters, init='k-means++',  n_init=1)
     # print 'Dataset Shape: ',dataset.shape
+    t0 = time.time()
+
+    # dataset = np.append(dataset,dataset,axis=1)
+    print dataset.shape
     k_means.fit(dataset)
+    t2 = time.time()-t0
 
     k_means_labels = k_means.labels_
     k_means_cluster_centers = k_means.cluster_centers_
@@ -33,6 +39,7 @@ def kmeans_clustering(n_clusters,dataset):
             data.append(list(val))
         for i in range(len(value)):
             belongs_to.append(key)
+    # timer.saveFile('kmeans_temp',n_clusters,dataset.shape[0],t2)
     return None
 
     # plot(np.array(data),np.array(belongs_to))

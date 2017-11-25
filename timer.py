@@ -12,7 +12,7 @@ def timeit(method):
         te = time.time()
         tt = te-ts
         # print '%r (%r, %r) %2.2f sec' % (algorithm, args, kw, tt)
-        print '%r %r datasets in %2.2f sec' % (algorithm,args[1], tt)
+        print '%r for %r datasets in %2.2f sec' % (algorithm,args[1], tt)
         print("Max Ram Usage: %.2f MB.\n" % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024)) #TODO make function f and use mem_usage = memory_usage(f) an its max
 
         # globals().get(algorithm, []).append((args[0],tt)) #

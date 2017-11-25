@@ -1,4 +1,3 @@
-import timings
 from timer import timeit
 import time
 import timer
@@ -27,7 +26,7 @@ def single_pass(n_clusters,selection,dataset):
 
 @timeit
 def ktree(n_clusters,selection,dataset):
-    order = 20
+    order = 10
     return ktree_clustering.ktree_clustering(order,selection,dataset)
 
 def draw(algorithm,fig):
@@ -50,7 +49,7 @@ def draw(algorithm,fig):
 
 if __name__ == '__main__':
     n_clusters = None
-    dataset = np.loadtxt("data/generated_data.csv")
+    dataset = np.loadtxt("data/generated_data_10000.csv")
     np.random.shuffle(dataset.flat)
 
     num_instances, num_features = dataset.shape
@@ -63,8 +62,10 @@ if __name__ == '__main__':
         algorithm = algorithms[j]
         for frac in np.arange(50,1001,50):
             selection = frac * num_instances / 1000
-            dataset = dataset[:selection,:selection]
-            results = globals().get(algorithm, [])(n_clusters,selection,dataset)
+            # print selection
+            # continue
+            temp_selection = dataset[:selection,:selection]
+            results = globals().get(algorithm, [])(n_clusters,selection,temp_selection)
             if n_clusters is None:
                 n_clusters = results['n_clusters']
         draw(algorithm,fig)

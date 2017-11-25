@@ -18,6 +18,8 @@ import resource,time,os
 import matplotlib.pyplot as plt
 
 def single_pass_clustering(numberOfClusters,dataset):
+    print dataset.shape
+
     # numberOfClusters = 5
     discardSets = { 'sumOfAllPoints':None,
                     'numberOfPoints':None,

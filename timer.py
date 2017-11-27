@@ -4,7 +4,7 @@ import time,resource,os
 # single_pass = []
 # ktree = []
 path, dirs, files = os.walk("complexities").next()
-file_suffix = len(files)//3 - 1
+file_suffix = max(0,len(files)//3 - 1)
 mode = 'w'
 def timeit(method):
     algorithm = method.__name__

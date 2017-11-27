@@ -93,7 +93,7 @@ def single_pass_clustering(numberOfClusters,dataset):
                         # print 'deleting',points[j]
                         np.delete(points, np.where(np.array_equal(points[j],clusterList[i]['mean'])), axis=0)
                         # print 'points after:',points.shape
-            tempClusters[i] =points
+            tempClusters[i] = points
             # print tempClusters
             # #TODO
 

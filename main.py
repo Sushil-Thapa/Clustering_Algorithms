@@ -30,15 +30,19 @@ def ktree(n_clusters,selection,dataset):
     return ktree_clustering.ktree_clustering(order,selection,dataset)
 
 def draw(algorithm,fig):
+    fname ='complexities/'+algorithm+'_'+str(timer.file_suffix)+'.csv'
+    data = pd.read_csv(fname,header=None)
 
-    data = pd.read_csv('complexities/'+algorithm+'.csv',header=None)
-    data.loc[0] = [0,0] #plots 0 if both x and y = 0
+    data.loc[-1] = [0,0]  # adding a row
+    data.index = data.index + 1  # shifting index
+    # data = data.sort_index()  # sorting by index
 
     fig.suptitle('Analysis of clustering algorithms', fontsize=16)
 
     xValues = data.iloc[:,0:1] #all columns, first row
     yValues = data.iloc[:,1:2] #all columns, second row
 
+    print xValues,yValues,type(xValues)
     plt.xlabel('Number of datas', fontsize=18)
     plt.ylabel('Execution time', fontsize=18)
 
@@ -49,7 +53,7 @@ def draw(algorithm,fig):
 
 if __name__ == '__main__':
     n_clusters = None
-    dataset = np.loadtxt("data/generated_data_10000.csv")  #loads data into numpy n dimensional array
+    dataset = np.loadtxt("data/generated_data.csv")  #loads data into numpy n dimensional array
     # np.random.shuffle(dataset.flat) #random shuffle the dataset
 
     num_instances, num_features = dataset.shape # .shape gives num of rows,num of columns

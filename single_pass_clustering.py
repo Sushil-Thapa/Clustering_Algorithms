@@ -52,11 +52,12 @@ def single_pass_clustering(numberOfClusters,dataset):
     #if the dataset is exhausted then finish.
     #Other wise repeat from setp 2
     startTime = time.time()
-    for i in range(perRate): # 100 iterations
-        bufferSet, dataset = dataset[:fraction,:],dataset[fraction:,:] #fill the buffer points
+    for ith in range(perRate): # 100 iterations
+        bufferSet_bak, dataset = dataset[:fraction,:],dataset[fraction:,:] #fill the buffer points
 
         if firstIteration: #do nothing at first
             firstIteration = False
+            bufferSet = bufferSet_bak
 
         else: #for each cluster update the sufficient statistics of the discard set with the points assignmed to the cluster
 
@@ -64,7 +65,7 @@ def single_pass_clustering(numberOfClusters,dataset):
                 num = clusterList[i]['discardSets']['numberOfPoints'] #number of points in each previous kmeans cluster
                 tmp = np.tile(clusterList[i]['mean'],(num,1)) #make copies of data with same values of prev centroids
 
-                bufferSet = np.append(bufferSet,tmp, axis=0) #np.time(X,(3,1)) #append them to new buffer sets
+                bufferSet = np.append(bufferSet_bak,tmp, axis=0) #np.time(X,(3,1)) #append them to new buffer sets
                 # print 'after append:',str(bufferSet.shape)
 
     #perform iterations of k-means on the poinnts and discard sets in the buffer,until convergence
@@ -81,18 +82,17 @@ def single_pass_clustering(numberOfClusters,dataset):
         # #TODO  NEED TO GET POINTS FOR PLOTTING
         # #TODO put unique data points in tempClusters, puts Mean values from tmp too right now
         tempClusters={}
-        for i in range(k_means.n_clusters):
-            points = bufferSet[np.where(k_means_labels == i)]
-            # print 'sss',points.shape,clusterList[i]['mean'].shape
-            # for point in points:
-            #     if (point == clusterList[i]['mean']).all():
-            #         print 'deleting'
-            #         points = np.delete(points, np.where((point == clusterList[i]['mean'].all())), axis=0)
-            #     else:
-            #         print ',',
-            for point in points:
-                if (point == clusterList[i]['mean']).all():
-                    np.delete(points, np.where((point == clusterList[i]['mean']).all()), axis=0)
+        # print 'bufferset',bufferSet.shape
+        for i in range(numberOfClusters):
+            points = bufferSet[np.where(k_means_labels == i)] #points in a cluster
+            if (ith > 0):
+                # print 'points before:',points.shape
+                for j in range(points.shape[0]):
+                    # print 'mean:',clusterList[i]['mean'],'pointj',points[j],'--',points[j].shape,clusterList[i]['mean'].shape
+                    if np.array_equal(points[j],clusterList[i]['mean']):
+                        # print 'deleting',points[j]
+                        np.delete(points, np.where(np.array_equal(points[j],clusterList[i]['mean'])), axis=0)
+                        # print 'points after:',points.shape
             tempClusters[i] =points
             # print tempClusters
             # #TODO
@@ -107,15 +107,15 @@ def single_pass_clustering(numberOfClusters,dataset):
             }
             clusterList[i]={'mean':k_means_cluster_centers[i],
                             'discardSets':tempDiscardSets}
+        # print 'iteration +1'
         # a = raw_input()
-        print clusterList[i]['mean']
+        # print clusterList[i]['mean']
 
 
 
-    # timeElapsed = time.time() - startTime
+    timeElapsed = time.time() - startTime
     # print("Max_ram_usage: %.2f MB.\n" % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024)) #TODO make function f and use mem_usage = memory_usage(f) an its max
-    return None
+    return timeElapsed
 
-# ds = np.loadtxt("data/generated_data_m100.csv")
-# print ds.shape
-# single_pass_clustering(4,ds)
+ds = np.loadtxt("data/generated_data.csv")
+print single_pass_clustering(3,ds)

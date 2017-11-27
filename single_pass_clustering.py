@@ -78,8 +78,8 @@ def single_pass_clustering(numberOfClusters,dataset):
         temp_init = k_means_cluster_centers
         k_means_labels_unique = np.unique(k_means_labels)
 
-    # #TODO  NEED TO GET POINTS FOR PLOTTING
-    # #TODO put unique data points in tempClusters, puts Mean values from tmp too right now
+        # #TODO  NEED TO GET POINTS FOR PLOTTING
+        # #TODO put unique data points in tempClusters, puts Mean values from tmp too right now
         tempClusters={}
         for i in range(k_means.n_clusters):
             points = bufferSet[np.where(k_means_labels == i)]
@@ -94,8 +94,8 @@ def single_pass_clustering(numberOfClusters,dataset):
                 if (point == clusterList[i]['mean']).all():
                     np.delete(points, np.where((point == clusterList[i]['mean']).all()), axis=0)
             tempClusters[i] =points
-        # print tempClusters
-    # #TODO
+            # print tempClusters
+            # #TODO
 
         # tempClusters = {i: bufferSet[np.where(k_means_labels == i)] for i in range(k_means.n_clusters)} #get all points of
 
@@ -108,7 +108,7 @@ def single_pass_clustering(numberOfClusters,dataset):
             clusterList[i]={'mean':k_means_cluster_centers[i],
                             'discardSets':tempDiscardSets}
         # a = raw_input()
-        # print clusterList[i]['mean']
+        print clusterList[i]['mean']
 
 
 
@@ -116,5 +116,6 @@ def single_pass_clustering(numberOfClusters,dataset):
     # print("Max_ram_usage: %.2f MB.\n" % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024)) #TODO make function f and use mem_usage = memory_usage(f) an its max
     return None
 
-
-single_pass_clustering(4,np.loadtxt("data/generated_data_1000.csv"))
+# ds = np.loadtxt("data/generated_data_m100.csv")
+# print ds.shape
+# single_pass_clustering(4,ds)

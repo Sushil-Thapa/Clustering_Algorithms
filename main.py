@@ -49,7 +49,7 @@ def draw(algorithm,fig):
 
 if __name__ == '__main__':
     n_clusters = None
-    dataset = np.loadtxt("data/generated_data_10000.csv")  #loads data into numpy n dimensional array
+    dataset = np.loadtxt("data/generated_data_100m.csv",delimiter='\t')  #loads data into numpy n dimensional array
     np.random.shuffle(dataset.flat) #random shuffle the dataset
 
     num_instances, num_features = dataset.shape # .shape gives num of rows,num of columns
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     for j in range(0,3): #for each algorithm
         algorithm = algorithms[j]
-        for frac in np.arange(50,1001,50): # frac is += 5 percent of datas
+        for frac in np.arange(1000,1001,100): # frac is += 5 percent of datas  ##JUST USING FULL DATASET JUST FOR OONCE RIGHT NOW.
             selection = frac * num_instances / 1000
             # print selection
             # continue

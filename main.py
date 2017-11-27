@@ -32,43 +32,43 @@ def ktree(n_clusters,selection,dataset):
 def draw(algorithm,fig):
 
     data = pd.read_csv('complexities/'+algorithm+'.csv',header=None)
-    data.loc[0] = [0,0]
+    data.loc[0] = [0,0] #plots 0 if both x and y = 0
 
     fig.suptitle('Analysis of clustering algorithms', fontsize=16)
 
-    xValues = data.iloc[:,0:1]
-    yValues = data.iloc[:,1:2]
+    xValues = data.iloc[:,0:1] #all columns, first row
+    yValues = data.iloc[:,1:2] #all columns, second row
 
     plt.xlabel('Number of datas', fontsize=18)
     plt.ylabel('Execution time', fontsize=18)
 
     plt.plot(xValues,yValues,label=algorithm)
-    plt.legend(loc='best')
+    plt.legend(loc='best') #location for alorithms labels
     # plt.pause(1)
     fig.canvas.draw()
 
 if __name__ == '__main__':
     n_clusters = None
-    dataset = np.loadtxt("data/generated_data_10000.csv")
-    np.random.shuffle(dataset.flat)
+    dataset = np.loadtxt("data/generated_data_10000.csv")  #loads data into numpy n dimensional array
+    np.random.shuffle(dataset.flat) #random shuffle the dataset
 
-    num_instances, num_features = dataset.shape
+    num_instances, num_features = dataset.shape # .shape gives num of rows,num of columns
 
     fig = plt.gcf()
-    fig.show()
+    fig.show()  #shows blank graph
     fig.canvas.draw()
 
-    for j in range(0,3):
+    for j in range(0,3): #for each algorithm
         algorithm = algorithms[j]
-        for frac in np.arange(50,1001,50):
+        for frac in np.arange(50,1001,50): # frac is += 5 percent of datas
             selection = frac * num_instances / 1000
             # print selection
             # continue
-            temp_selection = dataset[:selection,:selection]
-            results = globals().get(algorithm, [])(n_clusters,selection,temp_selection)
-            if n_clusters is None:
+            temp_selection = dataset[:selection,:selection] #take only selected needed fraction of dataset
+            results = globals().get(algorithm, [])(n_clusters,selection,temp_selection) # globals().get(algorithm, []) gives respective function from algorithm variable
+            if n_clusters is None: # for first iter in algorithm, for result of ktree, get n_clusters to use later
                 n_clusters = results['n_clusters']
         draw(algorithm,fig)
-        timer.mode = 'w'
+        timer.mode = 'w' #resets complexities file mode to write mode for another alorithm.
     raw_input('Analysis Complete.')
     # plt.show()

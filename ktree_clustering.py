@@ -11,15 +11,15 @@ def ktree_clustering(order,selection,dataset):
     N,d = ds.shape # N: number of examples, d: dimension of examples
 
 
-    options = KTreeOptions()
+    options = KTreeOptions() #sets options for ktree_clustering
     options.order = order
     options.weighted = True
     options.distance = "euclidean"
     options.reinsert = True
 
     t0 = time.time()
-    k = ktree(data=ds, options=options)
-    print "ktree Number of clusters: ",len(k.root)
+    k = ktree(data=ds, options=options)   # returns k-Node object
+    print "ktree Number of clusters: ",len(k.root) #k.root has all clusters with list of clusters in one key of dict.
     # print
     timeElapsed = time.time() - t0
     # print("Max_ram_usage: %.2f MB.\n" % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024))

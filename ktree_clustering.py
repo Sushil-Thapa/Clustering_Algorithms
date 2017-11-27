@@ -19,9 +19,10 @@ def ktree_clustering(order,selection,dataset):
 
     t0 = time.time()
     k = ktree(data=ds, options=options)   # returns k-Node object
-    print "ktree Number of clusters: ",len(k.root) #k.root has all clusters with list of clusters in one key of dict.
-    # print
     timeElapsed = time.time() - t0
+
+    print "ktree Number of clusters: ",len(k.root),' in ',timeElapsed #k.root has all clusters with list of clusters in one key of dict.
+    # print
     # print("Max_ram_usage: %.2f MB.\n" % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024))
 
     # utils.save_ktree(k,'save_ktree.pickle') #Save Pickle
@@ -31,6 +32,5 @@ def ktree_clustering(order,selection,dataset):
     # results['timeElapsed']=timeElapsed
 
     return results
-
 
 # ktree_clustering()

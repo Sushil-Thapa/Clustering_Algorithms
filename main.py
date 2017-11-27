@@ -52,6 +52,7 @@ def draw(algorithm,fig):
     fig.canvas.draw()
 
 if __name__ == '__main__':
+    print ''
     n_clusters = None
     dataset = np.loadtxt("data/generated_data.csv")  #loads data into numpy n dimensional array
     # np.random.shuffle(dataset.flat) #random shuffle the dataset
@@ -64,8 +65,8 @@ if __name__ == '__main__':
 
     for j in range(0,3): #for each algorithm
         algorithm = algorithms[j]
-        for frac in np.arange(1000,1001,100): # frac is += 5 percent of datas  ##JUST USING FULL DATASET JUST FOR OONCE RIGHT NOW.
-            selection = frac * num_instances / 1000
+        for frac in np.arange(100,1001,500): # frac is += 5 percent of datas  ##JUST USING FULL DATASET JUST FOR OONCE RIGHT NOW.
+            selection = frac * num_instances / 500
             # print selection
             # continue
             temp_selection = dataset[:selection,:selection] #take only selected needed fraction of dataset

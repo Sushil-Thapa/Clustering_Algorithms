@@ -7,7 +7,7 @@ def ktree_clustering(order,selection,dataset):
     # order = 10 # order: order of K-tree default:6 i.e. the maximum number of a node's children.  Default order is 5.
     # ds = np.loadtxt("data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))
     # ds = np.loadtxt("data/generated_data_1000.csv")
-    print ('Shape: ',ds.shape)
+    # print ('Shape: ',ds.shape)
     N,d = ds.shape # N: number of examples, d: dimension of examples
 
 

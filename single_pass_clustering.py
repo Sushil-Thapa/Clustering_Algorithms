@@ -18,7 +18,7 @@ import resource,time,os
 import matplotlib.pyplot as plt
 
 def single_pass_clustering(numberOfClusters,dataset):
-    print dataset.shape
+    # print dataset.shape
 
     # numberOfClusters = 5
     discardSets = { 'sumOfAllPoints':None, #initial descardset skeleton
@@ -117,5 +117,5 @@ def single_pass_clustering(numberOfClusters,dataset):
     # print("Max_ram_usage: %.2f MB.\n" % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024)) #TODO make function f and use mem_usage = memory_usage(f) an its max
     return timeElapsed
 
-ds = np.loadtxt("data/generated_data.csv")
-print single_pass_clustering(3,ds)
+# ds = np.loadtxt("data/generated_data.csv")
+# print single_pass_clustering(3,ds)

@@ -49,8 +49,8 @@ def draw(algorithm,fig):
 
 if __name__ == '__main__':
     n_clusters = None
-    dataset = np.loadtxt("data/generated_data_100m.csv",delimiter='\t')  #loads data into numpy n dimensional array
-    np.random.shuffle(dataset.flat) #random shuffle the dataset
+    dataset = np.loadtxt("data/generated_data_10000.csv")  #loads data into numpy n dimensional array
+    # np.random.shuffle(dataset.flat) #random shuffle the dataset
 
     num_instances, num_features = dataset.shape # .shape gives num of rows,num of columns
 
@@ -65,6 +65,7 @@ if __name__ == '__main__':
             # print selection
             # continue
             temp_selection = dataset[:selection,:selection] #take only selected needed fraction of dataset
+            # print(temp_selection.shape)
             results = globals().get(algorithm, [])(n_clusters,selection,temp_selection) # globals().get(algorithm, []) gives respective function from algorithm variable
             if n_clusters is None: # for first iter in algorithm, for result of ktree, get n_clusters to use later
                 n_clusters = results['n_clusters']

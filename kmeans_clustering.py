@@ -23,7 +23,7 @@ def kmeans_clustering(n_clusters,dataset):
     t0 = time.time()
 
     # dataset = np.append(dataset,dataset,axis=1)
-    print dataset.shape
+    # print dataset.shape
     k_means.fit(dataset) # fits into desired dataset
     t2 = time.time()-t0
 

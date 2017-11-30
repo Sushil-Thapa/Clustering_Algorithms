@@ -85,6 +85,8 @@ class KNode(list):
         if self.model is None:
                 self.model = models.model(self.options)
         self.parent = parent
+    def get_parent(self):
+        return self.parent
 
     def str(self, level=0):
         """A string representation of the current node and its (sub)trees."""

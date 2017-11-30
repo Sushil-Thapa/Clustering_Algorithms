@@ -2,7 +2,7 @@ import time,resource
 import numpy as np
 from ktree import ktree,KTreeOptions,utils
 
-def ktree_clustering(order,selection,dataset):
+def ktree_clustering(order,dataset):
     ds = dataset
     # order = 10 # order: order of K-tree default:6 i.e. the maximum number of a node's children.  Default order is 5.
     # ds = np.loadtxt("data/data.csv", skiprows=1, delimiter='\t',usecols=range(1,3))

@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from numpy import ma
 from itertools import islice
 
-def single_pass_clustering(numberOfClusters,):
+def single_pass_clustering(numberOfClusters):
     # print dataset.shape
 
     # numberOfClusters = 5
@@ -32,7 +32,7 @@ def single_pass_clustering(numberOfClusters,):
 
 
     # numberOfData,numberOfFeatures = dataset.shape
-    numberOfData,numberOfFeatures = 1000000,2
+    numberOfData,numberOfFeatures = 100000000,2
 
     # randomClusterMeans = dataset[np.random.choice(numberOfData, numberOfClusters, replace=False), :]
     clusterList = []
@@ -70,7 +70,8 @@ def single_pass_clustering(numberOfClusters,):
             # print bufferSet_bak.shape
             # print arr
             if arr.shape[0]<N:
-                return time.time() - startTime
+                print 'N<Length'
+                # return time.time() - startTime
                 # break
             if firstIteration: #do nothing at first
                 firstIteration = False
@@ -152,6 +153,8 @@ def single_pass_clustering(numberOfClusters,):
     # print("Max_ram_usage: %.2f MB.\n" % (float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / 1024)) #TODO make function f and use mem_usage = memory_usage(f) an its max
     results = {}
     results['time']=time.time() - startTime
+    # print 'wtf'
+    # raw_input(results)
     return results
 # ds = np.loadtxt("data/generated_data.csv")
 # ds = None

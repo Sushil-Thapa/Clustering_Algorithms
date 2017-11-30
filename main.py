@@ -20,11 +20,12 @@ def kmeans(n_clusters):
     dataset = np.loadtxt("data/generated_data_100m.csv")
     kmeans_clustering.kmeans_clustering(n_clusters,dataset)
     results = {}
-    results['time']=time.time() - t0
+    results['time'] = time.time() - t0
     return results
 # @timeit
 def single_pass(n_clusters):
-    single_pass_clustering.single_pass_clustering(n_clusters)
+    # print 'wwtf'
+    return single_pass_clustering.single_pass_clustering(n_clusters)
 
 
 # @timeit
@@ -74,7 +75,7 @@ if __name__ == '__main__':
             results = globals().get(algorithm, [])(n_clusters) # globals().get(algorithm, []) gives respective function from algorithm variable
             if n_clusters is None: # for first iter in algorithm, for result of ktree, get n_clusters to use later
                 n_clusters = results['n_clusters']
-        print algorithm,results['time']
+        print 'algo:',algorithm,results['time']
         timer.saveFile(algorithm,results['time'])
         draw(algorithm,fig)
         timer.mode = 'w' #resets complexities file mode to write mode for another alorithm.

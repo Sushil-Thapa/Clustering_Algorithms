@@ -26,6 +26,6 @@ def saveFile(algorithm,t):
     fname = 'complexities/'+str(algorithm)+'_'+str(file_suffix)+'.csv'
     with open(fname, mode) as myfile:
         mode = 'a'
-        myfile.write(str('100000000')+','+str(round(float(t),3))+'\n')
+        myfile.write(str('1000000')+','+str(round(float(t),3))+'\n')
         myfile.close()
     print(fname+' saved.')

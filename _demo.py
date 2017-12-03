@@ -8,6 +8,8 @@ import seaborn as sns
 sns.set_context('poster')
 sns.set_palette('Paired', 10)
 sns.set_color_codes()
+from ktree import ktree,KTreeOptions,utils
+
 
 def benchmark_algorithm(dataset_sizes, cluster_function, function_args, function_kwds,
                         dataset_dimension=50, dataset_n_clusters=100, max_time=100000, sample_size=2):
@@ -44,20 +46,34 @@ def benchmark_algorithm(dataset_sizes, cluster_function, function_args, function
 
 # dataset_sizes = np.hstack([np.arange(1, 6) * 500, np.arange(3,7) * 1000, np.arange(4,8) * 2000, np.arange(1,10) * 5000])
 dataset_sizes = np.array([100,500,1000,5000,10000,50000,100000,500000,1000000])
+# dataset_sizes = np.array([100,500])
 print dataset_sizes
+n_clusters = 100
 
-k_means = sklearn.cluster.KMeans(100)
+k_means = sklearn.cluster.KMeans(n_clusters)
 k_means_data = benchmark_algorithm(dataset_sizes, k_means.fit, (), {})
+# print k_means_data
+
+
+# k_means = sklearn.cluster.KMeans(100)
+k_tree_data = benchmark_algorithm(dataset_sizes, ktree, (), {})
+
+
 
 sns.regplot(x='x', y='y', data=k_means_data, order=2,
-            label='Sklearn K-Means', x_estimator=np.mean)
+            label='K-Means', x_estimator=np.mean)
 
-plt.gca().axis([0, 1000000, 0, 400])
+sns.regplot(x='x', y='y', data=k_tree_data, order=2,
+            label='K-Tree', x_estimator=np.mean)
+
+
+plt.gca().axis([0, max(dataset_sizes), 0, 500])
 
 plt.gca().set_xlabel('Number of data points')
 plt.gca().set_ylabel('Time taken to cluster (s)')
 plt.title('Performance Comparison of Clustering Implementations')
 plt.legend()
-
+fig1 = plt.gcf()
 plt.show()
-
+plt.draw()
+fig1.savefig('complexities/timeVsN.png', dpi=100)
